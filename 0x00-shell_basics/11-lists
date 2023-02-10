@@ -1,4 +1,4 @@
 
 
 #!/bin/bash
-ls -al . .. /boot
+ls -la . .. /boot
