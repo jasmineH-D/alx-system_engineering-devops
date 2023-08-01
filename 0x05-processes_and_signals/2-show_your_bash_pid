@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# displays lines containing the bash word
+
+./1-list_your_processes | grep bash
