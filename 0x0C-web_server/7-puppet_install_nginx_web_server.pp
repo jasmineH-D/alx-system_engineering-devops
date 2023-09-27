@@ -8,7 +8,7 @@ $config = "server {
         index index.html;
 
         location /redirect_me {
-                return 301 https://www.linkedin.com/in/yasmine-haddad-ab9702233 /;
+                return 301 https://www.linkedin.com/in/yasmine-haddad-ab9702233/;
         }
 }"
 
