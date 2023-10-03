@@ -5,16 +5,23 @@ ufw allow 1344
 apt-get -y update
 apt-get install -y haproxy
 
-printf %s "
-backend web-backend
-        balance roundrobin
-        option forwardfor
-        server 292273-web-01 34.239.253.144:80 check
-        server 292273-web-02 34.232.76.228:80 check
-frontend proxynode
-        bind *:80
-        mode http
-        default_backend web-backend
-" >> /etc/haproxy/haproxy.cfg
+echo "ENABLED=1" >> /etc/default/haproxy
+mv /etc/haproxy/haproxy.cfg{,.original}
+touch /etc/haproxy/haproxy.cfg
 
-sudo service haproxy restarT
+printf %s "global
+        group haproxy
+	maxconn 2000
+		
+backend web-backend
+	balance roundrobin
+	option forwardfor
+	server 292273-web-01 34.239.253.144:80 check
+	server 292273-web-02 34.232.76.228:80 check
+frontend proxynode
+	bind *:80
+	mode http
+	default_backend web-backend
+" >> /etc/haproxy/haproxy.cfg
+									
+sudo service haproxy restart
