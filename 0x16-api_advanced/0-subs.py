@@ -1,17 +1,25 @@
 #!/usr/bin/python3
-""" function that executes an api get request """
-from requests import get
+"""
+queries the Reddit API and returns the number of subscribers
+(not active users, total subscribers) for a given subreddit
+"""
+import requests
 
 
 def number_of_subscribers(subreddit):
-    """ api request to get number of subscribers """
-    if subreddit is None or not isinstance(subreddit, str):
+    """
+    function that queries the Reddit API
+    and returns the number of subscribers
+    """
+
+    apiUrl = "https://reddit.com/r/{}/about.json".format(subreddit)
+    userAgent = "Mozilla/5.0"
+
+    response = requests.get(apiUrl, headers={"user-agent": userAgent})
+    if not response:
         return 0
-    lien = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:108.0) \
-                Gecko/20100101 Firefox/108.0"
-    }
-    response = get(lien, headers=headers).json()
-    subscribers = response.get('data', {}).get('subscribers', 0)
-    return subscribers
+    retValue = response.json().get('data').get('subscribers')
+    if retValue:
+        return retValue
+    else:
+        return 0
